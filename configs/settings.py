@@ -71,7 +71,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'tamtik_django',
         'USER': 'root',
-        'PASSWORD': '11091987',
+        'PASSWORD': 'root',
         'HOST': 'localhost',
         'PORT': '3306'
     }}
