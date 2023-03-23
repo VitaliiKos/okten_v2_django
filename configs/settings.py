@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # my_apps
+    'apps.cars'
 ]
 
 MIDDLEWARE = [
@@ -69,7 +70,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'tamtik_django',
         'USER': 'root',
-        'PASSWORD': '11091987',
+        'PASSWORD': 'root',
         'HOST': 'localhost',
         'PORT': '3306'
     }}
@@ -114,9 +115,3 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 APPEND_SLASH = False
-
-REST_FRAMEWORK = {
-    'DEFAULT_RENDERER_CLASSES': [
-        'rest_framework.renderers.JSONRenderer',
-    ],
-}
