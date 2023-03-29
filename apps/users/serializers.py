@@ -2,16 +2,18 @@ from django.contrib.auth import get_user_model
 from django.db import transaction
 from rest_framework.serializers import ModelSerializer
 
+from apps.auto_parks.serializers import AutoParkSerializer
 from apps.users.models import ProfileModel
-from apps.users.models import UserModel as User
 
 UserModel = get_user_model()
 
 
 class ProfileSerializer(ModelSerializer):
+    auto_parks = AutoParkSerializer(many=True, read_only=True)
+
     class Meta:
         model = ProfileModel
-        fields = ('id', 'name', 'surname', 'age')
+        fields = ('id', 'name', 'surname', 'age', 'auto_parks')
 
 
 class UserSerializer(ModelSerializer):

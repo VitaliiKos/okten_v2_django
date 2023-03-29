@@ -1,6 +1,7 @@
 from rest_framework import status
 from rest_framework.generics import CreateAPIView, ListCreateAPIView
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import (IsAuthenticated,
+                                        IsAuthenticatedOrReadOnly)
 from rest_framework.response import Response
 
 from apps.auto_parks.models import AutoParksModel
@@ -11,6 +12,10 @@ from apps.cars.serializers import CarSerializer
 class AutoParkListCreateView(ListCreateAPIView):
     queryset = AutoParksModel.objects.all()
     serializer_class = AutoParkSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
 
 class AutoParkCreateListCarsView(CreateAPIView):

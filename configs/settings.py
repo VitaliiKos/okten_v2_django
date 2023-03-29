@@ -38,9 +38,11 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
 
     # my_apps
+    'core',
+    'apps.auth',
     'apps.users',
     'apps.cars',
-    'apps.auto_parks'
+    'apps.auto_parks',
 ]
 
 MIDDLEWARE = [
