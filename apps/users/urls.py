@@ -4,6 +4,7 @@ from .views import (
     AdminToUserView,
     BlockAdminView,
     BlockUserView,
+    TestSendEmailView,
     UnblockAdminView,
     UnblockUserView,
     UserListView,
@@ -13,6 +14,7 @@ from .views import (
 
 urlpatterns = [
     path('', UserListView.as_view(), name='user-list'),
+    path('/test', TestSendEmailView.as_view(), name='send_email'),
     path('/profile', UserProfileUpdateView.as_view(), name='users_profile_update'),
     path('/<int:pk>/to_admin', UserToAdminView.as_view(), name='users_to_admin'),
     path('/<int:pk>/to_user', AdminToUserView.as_view(), name='admin_to_user'),
