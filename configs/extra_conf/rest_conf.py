@@ -8,5 +8,6 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ],
-    'EXCEPTION_HANDLER': 'core.handlers.error_handler.custom_error_handler'
+    'EXCEPTION_HANDLER': 'core.handlers.error_handler.custom_error_handler',
+    'DEFAULT_PAGINATION_CLASS': 'core.pagination.page_pagination.PagePagination',
 }

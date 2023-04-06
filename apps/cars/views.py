@@ -1,5 +1,6 @@
 from rest_framework import status
 from rest_framework.generics import DestroyAPIView, GenericAPIView, ListAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 
 from apps.cars.models import CarModel, CarPhotoModel
@@ -44,5 +45,3 @@ class CarPhotoDeleteView(DestroyAPIView):
     def perform_destroy(self, instance):
         instance.photo.delete()
         super().perform_destroy(instance)
-
-
