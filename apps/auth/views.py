@@ -12,7 +12,7 @@ from core.services.jwt_service import ActivateToken, JWTService, RecoveryPasswor
 from apps.users.models import UserModel as User
 from apps.users.serializers import UserSerializer
 
-from .serializers import EmailSerializer
+from .serializers import EmailSerializer, PasswordSerializer
 
 UserModel: User = get_user_model()
 
@@ -65,7 +65,7 @@ class RecoverPasswordConfirmView(GenericAPIView):
         token = kwargs['token']
         user: User = JWTService.validate_token(token, RecoveryPasswordToken)
         data = self.request.data
-        serializer = UserSerializer(data=data, partial=True)
+        serializer = PasswordSerializer(data=data)
         serializer.is_valid(raise_exception=True)
         user.set_password(data['password'])
         user.save()

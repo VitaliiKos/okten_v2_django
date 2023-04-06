@@ -4,6 +4,7 @@ from rest_framework import status
 from rest_framework.generics import GenericAPIView, ListAPIView, UpdateAPIView
 from rest_framework.response import Response
 
+from core.permissions.block_unblock_permission import BlockUnblockUserPermission
 from core.permissions.is_superuser import IsAdminUser, IsSuperUser
 from core.services.email_service import EmailService
 
@@ -64,18 +65,17 @@ class AdminToUserView(GenericAPIView):
 
 
 class BlockUserView(GenericAPIView):
+    permission_classes = (BlockUnblockUserPermission,)
+
     def get_queryset(self):
         return UserModel.objects.exclude(pk=self.request.user.pk)
 
     def patch(self, *args, **kwargs):
         user = self.get_object()
 
-        if not self.request.user.is_staff or (user.is_staff and not self.request.user.is_superuser):
-            return Response('Error occurred. You do not have permission to do this!',
-                            status=status.HTTP_400_BAD_REQUEST)
-
         if not user.is_active:
             return Response('Error occurred while blocking the user.', status=status.HTTP_400_BAD_REQUEST)
+
         user.is_active = False
         user.save()
         serializer = UserSerializer(user)
@@ -83,17 +83,17 @@ class BlockUserView(GenericAPIView):
 
 
 class UnblockUserView(GenericAPIView):
+    permission_classes = (BlockUnblockUserPermission,)
+
     def get_queryset(self):
         return UserModel.objects.exclude(pk=self.request.user.pk)
 
     def patch(self, *args, **kwargs):
         user = self.get_object()
-        if not self.request.user.is_staff or (user.is_staff and not self.request.user.is_superuser):
-            return Response('Error occurred.  You do not have permission to do this!',
-                            status=status.HTTP_400_BAD_REQUEST)
 
         if user.is_active:
             return Response('Error occurred while unblocking the user.', status=status.HTTP_400_BAD_REQUEST)
+
         user.is_active = True
         user.save()
         serializer = UserSerializer(user)
@@ -106,6 +106,7 @@ class BlockAdminView(GenericAPIView):
 
     def patch(self, *args, **kwargs):
         user = self.get_object()
+
         if not user.is_staff:
             return Response('Error occurred. User is not an admin!', status=status.HTTP_400_BAD_REQUEST)
 
@@ -123,6 +124,7 @@ class UnblockAdminView(GenericAPIView):
 
     def patch(self, *args, **kwargs):
         user = self.get_object()
+
         if not user.is_staff:
             return Response('Error occurred. User is not an admin!', status=status.HTTP_400_BAD_REQUEST)
 
@@ -133,8 +135,8 @@ class UnblockAdminView(GenericAPIView):
         serializer = UserSerializer(user)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-
-class TestSendEmailView(GenericAPIView):
-    def get(self, *args, **kwargs):
-        EmailService.send_email({'user': 'Max'})
-        return Response(status=status.HTTP_200_OK)
+#
+# class TestSendEmailView(GenericAPIView):
+#     def get(self, *args, **kwargs):
+#         EmailService.send_email({'user': 'Max'})
+#         return Response(status=status.HTTP_200_OK)
