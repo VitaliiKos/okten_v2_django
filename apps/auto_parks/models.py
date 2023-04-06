@@ -4,6 +4,8 @@ from django.db import models
 
 from core.enums.regex_enum import RegEx
 
+from apps.auto_parks.managers import AutoParkManager
+
 UserModel = get_user_model()
 
 
@@ -13,3 +15,4 @@ class AutoParksModel(models.Model):
 
     name = models.CharField(max_length=20, validators=[V.RegexValidator(RegEx.NAME.pattern, RegEx.NAME.msg)])
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE, related_name='auto_parks')
+    objects = AutoParkManager.as_manager()

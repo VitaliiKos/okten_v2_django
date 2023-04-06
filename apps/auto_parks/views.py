@@ -9,9 +9,19 @@ from apps.cars.serializers import CarSerializer
 
 
 class AutoParkListCreateView(ListCreateAPIView):
-    queryset = AutoParksModel.objects.all()
+    # queryset = AutoParksModel.objects.all()
     serializer_class = AutoParkSerializer
     permission_classes = (IsAuthenticatedOrReadOnly,)
+
+    def get_queryset(self):
+        params_dict = self.request.query_params.dict()
+        print(params_dict)
+        qs = AutoParksModel.objects.all()
+
+        if 'cars_year' in params_dict:
+            qs = AutoParksModel.objects.auto_parks_with_cars_year_lt(params_dict['cars_year'])
+
+        return qs
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
