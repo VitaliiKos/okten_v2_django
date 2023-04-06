@@ -8,12 +8,13 @@ from core.services.upload_car_service import upload_to
 
 from apps.auto_parks.models import AutoParksModel
 
+from .managers import CarManager
+
 
 class CarModel(models.Model):
     class Meta:
         db_table = 'cars'
         ordering = ('id',)
-
 
     brand = models.CharField(max_length=20,
                              validators=[V.RegexValidator(RegEx.BRAND.pattern, RegEx.BRAND.msg)])
@@ -22,6 +23,11 @@ class CarModel(models.Model):
     auto_park = models.ForeignKey(AutoParksModel, on_delete=models.CASCADE, related_name='cars')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    objects = CarManager.as_manager()
+
+    def __repr__(self):
+        return str(self.__dict__)
 
 
 class CarPhotoModel(models.Model):

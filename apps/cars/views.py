@@ -12,7 +12,7 @@ class CarListCreateView(ListAPIView):
     filterset_class = CarFilter
 
     def get_queryset(self):
-        qs = CarModel.objects.all()
+        qs = CarModel.objects.get_cars_by_auto_park_id(2)
         params_dict = self.request.query_params.dict()
 
         if 'year' in params_dict:
