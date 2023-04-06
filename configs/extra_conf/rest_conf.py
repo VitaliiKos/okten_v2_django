@@ -10,4 +10,7 @@ REST_FRAMEWORK = {
     ],
     'EXCEPTION_HANDLER': 'core.handlers.error_handler.custom_error_handler',
     'DEFAULT_PAGINATION_CLASS': 'core.pagination.page_pagination.PagePagination',
+    'DEFAULT_FILTER_BACKENDS': (
+        'django_filters.rest_framework.DjangoFilterBackend',
+    ),
 }
