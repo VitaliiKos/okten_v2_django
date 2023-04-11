@@ -12,9 +12,8 @@ from apps.cars.serializers import CarSerializer
 class AutoParkListCreateView(ListCreateAPIView):
     queryset = AutoParksModel.objects.all()
     serializer_class = AutoParkSerializer
-    permission_classes = (IsAuthenticatedOrReadOnly,)
+    # permission_classes = (IsAuthenticatedOrReadOnly,)
     filterset_class = AutoParkFilter
-
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
