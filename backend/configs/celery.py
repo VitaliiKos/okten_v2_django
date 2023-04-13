@@ -10,9 +10,9 @@ app.config_from_object('django.conf.settings', namespace='CELERY')
 
 app.autodiscover_tasks()
 
-# app.conf.beat_schedule = {
-#     "send_spam": {
-#         "task": "core.services.email_service.spam",
-#         "schedule": crontab()
-#     }
-# }
+app.conf.beat_schedule = {
+    "send_spam": {
+        "task": "core.services.email_service.spam",
+        "schedule": crontab()
+    }
+}
