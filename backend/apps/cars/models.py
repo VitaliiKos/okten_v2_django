@@ -1,14 +1,11 @@
 from datetime import datetime
 
+from core.enums.regex_enum import RegEx
+from core.services.upload_car_service import upload_to
 from django.core import validators as V
 from django.db import models
 
-from core.enums.regex_enum import RegEx
-from core.services.upload_car_service import upload_to
-
 from apps.auto_parks.models import AutoParksModel
-
-from .managers import CarManager
 
 
 class CarModel(models.Model):
@@ -23,8 +20,6 @@ class CarModel(models.Model):
     auto_park = models.ForeignKey(AutoParksModel, on_delete=models.CASCADE, related_name='cars')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
-    objects = CarManager.as_manager()
 
     def __repr__(self):
         return str(self.__dict__)

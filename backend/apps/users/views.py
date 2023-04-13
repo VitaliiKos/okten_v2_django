@@ -1,22 +1,25 @@
+from core.permissions.block_unblock_permission import \
+    BlockUnblockUserPermission
+from core.permissions.is_superuser import IsAdminUser, IsSuperUser
 from django.contrib.auth import get_user_model
-
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
 from rest_framework.generics import GenericAPIView, ListAPIView, UpdateAPIView
 from rest_framework.response import Response
 
-from core.permissions.block_unblock_permission import BlockUnblockUserPermission
-from core.permissions.is_superuser import IsAdminUser, IsSuperUser
-from core.services.email_service import EmailService
-
 from apps.users.models import ProfileModel
 from apps.users.models import UserModel as User
 
+from ..auth.swagger.serializers import SwaggerUserSerializer
 from .serializers import ProfileSerializer, UserSerializer
 
 UserModel: User = get_user_model()
 
 
 class UserListView(ListAPIView):
+    """
+    List of users
+    """
     serializer_class = UserSerializer
 
     def get_queryset(self):
@@ -25,6 +28,9 @@ class UserListView(ListAPIView):
 
 
 class UserProfileUpdateView(UpdateAPIView):
+    """
+    Update user profile by id
+    """
     serializer_class = ProfileSerializer
     queryset = ProfileModel.objects.all()
 
@@ -33,6 +39,9 @@ class UserProfileUpdateView(UpdateAPIView):
 
 
 class UserToAdminView(GenericAPIView):
+    """
+    Update user status to Admin by id
+    """
     permission_classes = (IsSuperUser,)
 
     def get_queryset(self):
@@ -49,6 +58,10 @@ class UserToAdminView(GenericAPIView):
 
 
 class AdminToUserView(GenericAPIView):
+    """
+        Update Admin status to user by id
+    """
+
     permission_classes = (IsSuperUser,)
 
     def get_queryset(self):
@@ -65,11 +78,18 @@ class AdminToUserView(GenericAPIView):
 
 
 class BlockUserView(GenericAPIView):
+    """
+       Block user by id
+    """
     permission_classes = (BlockUnblockUserPermission,)
+
+    def get_serializer_class(self):
+        pass
 
     def get_queryset(self):
         return UserModel.objects.exclude(pk=self.request.user.pk)
 
+    @swagger_auto_schema(responses={status.HTTP_200_OK: SwaggerUserSerializer()})
     def patch(self, *args, **kwargs):
         user = self.get_object()
 
@@ -83,6 +103,9 @@ class BlockUserView(GenericAPIView):
 
 
 class UnblockUserView(GenericAPIView):
+    """
+       UnBlock user by id
+    """
     permission_classes = (BlockUnblockUserPermission,)
 
     def get_queryset(self):
@@ -101,6 +124,9 @@ class UnblockUserView(GenericAPIView):
 
 
 class BlockAdminView(GenericAPIView):
+    """
+       Block Admin by id
+    """
     queryset = UserModel.objects.all()
     permission_classes = (IsAdminUser,)
 
@@ -119,6 +145,9 @@ class BlockAdminView(GenericAPIView):
 
 
 class UnblockAdminView(GenericAPIView):
+    """
+       UnBlock Admin by id
+    """
     queryset = UserModel.objects.all()
     permission_classes = (IsAdminUser,)
 
@@ -134,9 +163,3 @@ class UnblockAdminView(GenericAPIView):
         user.save()
         serializer = UserSerializer(user)
         return Response(serializer.data, status=status.HTTP_200_OK)
-
-#
-# class TestSendEmailView(GenericAPIView):
-#     def get(self, *args, **kwargs):
-#         EmailService.send_email({'user': 'Max'})
-#         return Response(status=status.HTTP_200_OK)

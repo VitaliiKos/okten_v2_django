@@ -9,11 +9,11 @@ schema_view = get_schema_view(openapi.Info(title='AutoParkApi', default_version=
                                            contact=openapi.Contact(email='admin@gmail.com')), public=True,
                               permission_classes=[AllowAny])
 urlpatterns = [
-    path('cars', include('apps.cars.urls')),
-    path('auto_parks', include('apps.auto_parks.urls')),
-    path('auth', include('apps.auth.urls')),
-    path('users', include('apps.users.urls')),
-    path('doc', schema_view.with_ui('swagger', cache_timeout=0))
+    path('api/cars', include('apps.cars.urls')),
+    path('api/auto_parks', include('apps.auto_parks.urls')),
+    path('api/auth', include('apps.auth.urls')),
+    path('api/users', include('apps.users.urls')),
+    path('api/doc', schema_view.with_ui('swagger', cache_timeout=0))
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
