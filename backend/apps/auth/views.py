@@ -1,20 +1,26 @@
+from core.services.email_service import EmailService
+from core.services.jwt_service import (ActivateToken, JWTService,
+                                       RecoveryPasswordToken)
 from django.contrib.auth import get_user_model
 from django.db.transaction import atomic
-
 from rest_framework import status
-from rest_framework.generics import CreateAPIView, GenericAPIView, RetrieveAPIView, get_object_or_404
+from rest_framework.generics import (CreateAPIView, GenericAPIView,
+                                     RetrieveAPIView, get_object_or_404)
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
-
-from core.services.email_service import EmailService
-from core.services.jwt_service import ActivateToken, JWTService, RecoveryPasswordToken
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 from apps.users.models import UserModel as User
 from apps.users.serializers import UserSerializer
 
-from .serializers import EmailSerializer, PasswordSerializer
+from .serializers import (EmailSerializer, PasswordSerializer,
+                          TokenPairSerializer)
 
 UserModel: User = get_user_model()
+
+
+class TokenPairView(TokenObtainPairView):
+    serializer_class = TokenPairSerializer
 
 
 class AuthRegisterView(CreateAPIView):
