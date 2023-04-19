@@ -12,6 +12,7 @@ services:
       - db
     volumes:
       - ./backend:/app
+      - ./storage:/storage
     restart: on-failure
     command: >
       sh -c "python manage.py wait_db && python manage.py runserver 0.0.0.0:8000"
@@ -50,7 +51,7 @@ services:
       - ./backend:/app
     restart: on-failure
     command: >
-      sh -c "celery -A configs worker -l info -B"
+      sh -c "celery -A configs worker -l info"
   flower:
     image: mher/flower:0.9.7
     depends_on:

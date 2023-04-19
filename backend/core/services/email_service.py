@@ -36,8 +36,8 @@ class EmailService:
         url = f'http://localhost:3000/recovery/{token}'
         cls.__send_email(user.email, 'recover_password.html', {'url': url}, 'Recovery Password')
 
-    @staticmethod
-    # @app.task
-    def spam():
-        for user in UserModel.objects.all():
-            EmailService.__send_email(user.email, 'spam.html', {}, 'Spam')
+    # @staticmethod
+    # # @app.task
+    # def spam():
+    #     for user in UserModel.objects.all():
+    #         EmailService.__send_email(user.email, 'spam.html', {}, 'Spam')

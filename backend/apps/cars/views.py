@@ -17,7 +17,7 @@ class CarListCreateView(ListAPIView):
     serializer_class = CarSerializer
     queryset = CarModel.objects.all()
     filterset_class = CarFilter
-    # permission_classes = (AllowAny,)
+    permission_classes = (AllowAny,)
 
 
 class CarUpdateDeleteView(RetrieveUpdateDestroyAPIView):

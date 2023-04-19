@@ -69,7 +69,7 @@ class RecoverPasswordView(GenericAPIView):
     @swagger_auto_schema(responses={status.HTTP_200_OK: ''}, security=[])
     def post(self, *args, **kwargs):
         data = self.request.data
-        serializer = EmailSerializer(data=data)
+        serializer = self.get_serializer(data=data)
         serializer.is_valid(raise_exception=True)
         email = serializer.validated_data['email']
         user = get_object_or_404(UserModel, email=email)

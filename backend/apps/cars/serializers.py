@@ -1,6 +1,5 @@
-from rest_framework.serializers import ModelSerializer, RelatedField, ValidationError
-
 from core.dataclasses.auto_park_dataclass import AutoPark
+from rest_framework.serializers import ModelSerializer, RelatedField
 
 from .models import CarModel, CarPhotoModel
 
