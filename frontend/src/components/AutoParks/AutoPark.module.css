@@ -1,0 +1,7 @@
+.AutoPark{
+    display: flex;
+}
+
+.AutoPark div{
+    min-width: 50%;
+}

@@ -1,6 +1,6 @@
 from core.services.email_service import EmailService
 from core.services.jwt_service import (ActivateToken, JWTService,
-                                       RecoveryPasswordToken)
+                                       RecoveryPasswordToken, SocketToken)
 from django.contrib.auth import get_user_model
 from django.db.transaction import atomic
 from drf_yasg.utils import swagger_auto_schema
@@ -28,6 +28,7 @@ class TokenPairView(TokenObtainPairView):
         Login
     """
     serializer_class = TokenPairSerializer
+    permission_classes = (AllowAny,)
 
 
 @activate_user_swagger()
@@ -105,3 +106,10 @@ class AuthRegisterView(CreateAPIView):
     """
     serializer_class = UserSerializer
     permission_classes = (AllowAny,)
+
+
+class SocketTokenView(GenericAPIView):
+    def get(self, *args, **kwargs):
+        user = self.request.user
+        token = JWTService.create_token(user, SocketToken)
+        return Response({'token': str(token)}, status=status.HTTP_200_OK)

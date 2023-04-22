@@ -1,15 +1,11 @@
 from typing import Type
 
-from django.contrib.auth import get_user_model
-
-from rest_framework.generics import get_object_or_404
-
-from rest_framework_simplejwt.tokens import BlacklistMixin, Token
-
+from apps.users.models import UserModel as User
 from core.enums.action_token_enum import ActionEnum
 from core.exceptions.jwt_exception import JWTException
-
-from apps.users.models import UserModel as User
+from django.contrib.auth import get_user_model
+from rest_framework.generics import get_object_or_404
+from rest_framework_simplejwt.tokens import BlacklistMixin, Token
 
 UserModel: User = get_user_model()
 
@@ -28,6 +24,11 @@ class ActivateToken(ActionToken):
 class RecoveryPasswordToken(ActionToken):
     token_type = ActionEnum.RECOVERY_PASSWORD.token_type
     lifetime = ActionEnum.RECOVERY_PASSWORD.exp_time
+
+
+class SocketToken(ActionToken):
+    token_type = ActionEnum.SOCKET.token_type
+    lifetime = ActionEnum.SOCKET.exp_time
 
 
 class JWTService:
