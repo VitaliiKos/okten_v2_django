@@ -1,0 +1,1 @@
+{"version":3,"file":"static/css/main.fd9bdd09.css","mappings":"AAAA,0BACI,YACJ,CAEA,8BACI,aACJ","sources":["components/AutoParks/AutoPark.module.css"],"sourcesContent":[".AutoPark{\r\n    display: flex;\r\n}\r\n\r\n.AutoPark div{\r\n    min-width: 50%;\r\n}"],"names":[],"sourceRoot":""}
